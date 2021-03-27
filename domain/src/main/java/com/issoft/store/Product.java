@@ -30,10 +30,18 @@ public class Product {
         return rate;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", rate=" + rate +
+                ", price=" + price +
+                '}';
+    }
 
-    //public com.issoft.store.Product(String name, int rate, double price){
-        //this.name = name;
-       // this.rate = rate;
-        //this.price = price;
-    //}
+    Product(String name, int rate, double price){
+        this.name = name;
+       this.rate = rate;
+       this.price = price;
+    }
 }
