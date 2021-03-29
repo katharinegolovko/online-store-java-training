@@ -7,59 +7,42 @@ import com.issoft.store.categories.Vegetable;
 
 import java.util.ArrayList;
 
+import static com.issoft.store.TestConstants.FRUIT;
+import static com.issoft.store.TestConstants.BOOK;
+import static com.issoft.store.TestConstants.VEGETABLE;
+
 public final class RandomStorePopulator {
 
     Faker faker = new Faker();
 
     public Product createProduct(String product){
-        String product1;
-        if(product == "Fruit"){
-            product1 = faker.food().fruit();
+        String productName;
+        if(product == FRUIT){
+            productName = faker.food().fruit();
         }
-        else if(product == "Vegetable"){
-            product1 = faker.food().vegetable();
+        else if(product == VEGETABLE){
+            productName = faker.food().vegetable();
         }
-        else if (product== "Book"){
-            product1 = faker.book().title();
+        else if (product== BOOK){
+            productName = faker.book().title();
         }
         else {
-            product1="Unrecognized product";
+            productName="Unrecognized product";
         }
         int productRate = faker.number().numberBetween(0,5);
         double productPrice = faker.number().numberBetween(0, 19);
-        Product product2 = new Product(product1, productRate, productPrice);
+        Product product2 = new Product(productName, productRate, productPrice);
         return product2;
     }
 
-    public ArrayList<Product> populateCategory(String name,int quantity){
+    public ArrayList<Product> populateCategory(String name,int quantity) {
         ArrayList<Product> productList = new ArrayList<Product>();
-        if(name == "Fruit"){
-            for(int i=quantity; i>0;i--){
-                Product product = createProduct("Fruit");
-                productList.add(product);
-            }
-        }
-        else if(name== "Vegetable"){
-            for(int i=quantity; i>0;i--){
-                Product product = createProduct("Vegetable");
-                productList.add(product);
-            }
-        }
-        else if(name=="Book") {
-            for(int i=quantity; i>0;i--){
-                Product product = createProduct("Book");
-                productList.add(product);
-            }
-        }
-        else {
-            for(int i=quantity; i>0;i--){
-                Product product = createProduct("Unrecognized");
-                productList.add(product);
-            }
+        for (int i = quantity; i > 0; i--) {
+            Product product = createProduct(name);
+            productList.add(product);
         }
         return productList;
     }
-
 
     public ArrayList<Category> populateStore(){
         ArrayList<Category> categoryList = new ArrayList<Category>();
