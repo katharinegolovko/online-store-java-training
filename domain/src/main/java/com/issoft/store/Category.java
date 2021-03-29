@@ -1,7 +1,6 @@
 package com.issoft.store;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Category {
 
