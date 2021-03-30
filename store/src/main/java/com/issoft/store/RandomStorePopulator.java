@@ -44,21 +44,21 @@ public final class RandomStorePopulator {
         return productList;
     }
 
-    public ArrayList<Category> populateStore(){
-        ArrayList<Category> categoryList = new ArrayList<Category>();
+    public ArrayList<Category> populateProductLists(){
+        ArrayList<Category> productList = new ArrayList<Category>();
         Fruit fruitCategory = new Fruit();
-        fruitCategory.setName("Fruit");
-        fruitCategory.setProducts(populateCategory("Fruit", 2));
+        fruitCategory.setName(FRUIT);
+        fruitCategory.setProducts(populateCategory(FRUIT, 2));
         Vegetable vegetableCategory = new Vegetable();
-        vegetableCategory.setName("Vegetable");
-        vegetableCategory.setProducts(populateCategory("Vegetable", 3));
+        vegetableCategory.setName(VEGETABLE);
+        vegetableCategory.setProducts(populateCategory(VEGETABLE, 3));
         Book bookCategory = new Book();
-        bookCategory.setName("Book");
-        bookCategory.setProducts(populateCategory("Book", 2));
-        categoryList.add(fruitCategory);
-        categoryList.add(vegetableCategory);
-        categoryList.add(bookCategory);
-        return categoryList;
+        bookCategory.setName(BOOK);
+        bookCategory.setProducts(populateCategory(BOOK, 2));
+        productList.add(fruitCategory);
+        productList.add(vegetableCategory);
+        productList.add(bookCategory);
+        return productList;
     }
 
     }

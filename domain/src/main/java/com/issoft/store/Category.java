@@ -25,10 +25,10 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "\n Category{" +
                 "name='" + name + '\'' +
-                ", products=" + products +
-                '}';
+                ",\n products=" + products +
+                '}' ;
     }
 
 }
