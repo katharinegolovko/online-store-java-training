@@ -1,21 +1,23 @@
 package com.issoft.store;
 
-import org.reflections.Reflections;
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class StoreApp {
 
-    public static void main(String args[]){
+
+    public static void main(String args[]) throws IllegalAccessException {
 
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
-        ArrayList<Category> categoryList = randomStorePopulator.populateProductLists();
-        String output = categoryList.toString().replaceAll("(^\\[|\\]$)", "");
-        System.out.println(output);
+        Store store = new Store();
+        store.setCategories(randomStorePopulator.populateProductLists());
+        List<Category> extractedData = randomStorePopulator.extractDataFromStore(store);
+        randomStorePopulator.pretty(extractedData);
 
-        Reflections reflections = new Reflections("my.package");
-
-        }
     }
+
+
+}
+
 
 

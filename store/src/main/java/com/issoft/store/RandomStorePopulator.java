@@ -4,8 +4,13 @@ import com.github.javafaker.Faker;
 import com.issoft.store.categories.Book;
 import com.issoft.store.categories.Fruit;
 import com.issoft.store.categories.Vegetable;
+import org.reflections.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.issoft.store.TestConstants.FRUIT;
 import static com.issoft.store.TestConstants.BOOK;
@@ -15,27 +20,24 @@ public final class RandomStorePopulator {
 
     Faker faker = new Faker();
 
-    public Product createProduct(String product){
+    public Product createProduct(String product) {
         String productName;
-        if(product == FRUIT){
+        if (product == FRUIT) {
             productName = faker.food().fruit();
-        }
-        else if(product == VEGETABLE){
+        } else if (product == VEGETABLE) {
             productName = faker.food().vegetable();
-        }
-        else if (product== BOOK){
+        } else if (product == BOOK) {
             productName = faker.book().title();
+        } else {
+            productName = "Unrecognized product";
         }
-        else {
-            productName="Unrecognized product";
-        }
-        int productRate = faker.number().numberBetween(0,5);
+        int productRate = faker.number().numberBetween(0, 5);
         double productPrice = faker.number().numberBetween(0, 19);
         Product product2 = new Product(productName, productRate, productPrice);
         return product2;
     }
 
-    public ArrayList<Product> populateCategory(String name,int quantity) {
+    public ArrayList<Product> populateCategory(String name, int quantity) {
         ArrayList<Product> productList = new ArrayList<Product>();
         for (int i = quantity; i > 0; i--) {
             Product product = createProduct(name);
@@ -44,7 +46,7 @@ public final class RandomStorePopulator {
         return productList;
     }
 
-    public ArrayList<Category> populateProductLists(){
+    public ArrayList<Category> populateProductLists() {
         ArrayList<Category> productList = new ArrayList<Category>();
         Fruit fruitCategory = new Fruit();
         fruitCategory.setName(FRUIT);
@@ -61,5 +63,25 @@ public final class RandomStorePopulator {
         return productList;
     }
 
+
+    public List<Category> extractDataFromStore(Store store) throws IllegalAccessException {
+        Set<Field> fields = ReflectionUtils.getFields(Store.class);
+        Field f = fields.iterator().next();
+        f.setAccessible(true);
+        Object data = f.get(store);
+        return (List<Category>) data;
+
     }
+
+    public void pretty(List<Category> store) {
+        for (Category category : store) {
+            System.out.print("Category: " + category.getName() + " \n");
+            for (Product product : category.getProducts()) {
+                String pattern = "   Product: name=%s, rate=%s, price=%s ";
+                System.out.println(String.format(pattern, product.getName(), product.getRate(), product.getPrice()));
+            }
+        }
+
+    }
+}
 
