@@ -70,7 +70,14 @@ public final class RandomStorePopulator {
         f.setAccessible(true);
         Object data = f.get(store);
         return (List<Category>) data;
+    }
 
+    public List<Product> extractDataFromCategory(Category category) throws IllegalAccessException{
+        Set<Field> fields = ReflectionUtils.getFields(Category.class);
+        Field f = fields.iterator().next();
+        f.setAccessible(true);
+        Object data = f.get(category);
+        return (List<Product>) data;
     }
 
     public void pretty(List<Category> store) {

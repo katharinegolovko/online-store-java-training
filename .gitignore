@@ -38,7 +38,6 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 .gitignore
-consoleApp/src/main/resources/
 consoleApp/src/test/
 consoleApp/target/
 domain/src/main/resources/
