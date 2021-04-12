@@ -1,18 +1,16 @@
 package com.issoft.store;
-
+import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Stream;
+import java.util.*;
 
-import static com.issoft.store.TestConstants.FRUIT;
 
 
 public class StoreApp {
 
 
-    public static void main(String args[]) throws IllegalAccessException, IOException {
+    public static void main(String args[]) throws IllegalAccessException, IOException, ParserConfigurationException, SAXException {
+
 
         int i = 1;
         while(i>=1){
@@ -23,36 +21,25 @@ public class StoreApp {
             Store store = new Store();
             store.setCategories(randomStorePopulator.populateProductLists());
             List<Category> extractedData = randomStorePopulator.extractDataFromStore(store);
-            //Category category1 = extractedData.get(0);
-            //Category category2 = extractedData.get(1);
-            //Category category3 = extractedData.get(2);
-            //List<Product> extractedProducts = randomStorePopulator.extractDataFromCategory(category1);
-            //System.out.println(extractedProducts);
-
-
-            //List<Product> extractedProducts1 = category1.getProducts();
-            //List<Product> extractedProducts2 = category2.getProducts();
-            //List<Product> extractedProducts3 = category3.getProducts();
-
-            //Stream<Product> combinedStream = Stream.concat(
-            //        Stream.concat(extractedProducts1.stream(), extractedProducts2.stream()),
-            //       extractedProducts3.stream());
-            //System.out.println(combinedStream.toString());
-
-            //System.out.println(extractedProducts);
-           // ProductRateComparator productRateComparator = new ProductRateComparator();
-            //Collections.sort(extractedProducts, productRateComparator);
-           // randomStorePopulator.pretty(extractedData);
-
-
-
-
+            List<Product> extractedProducts = new ArrayList<>();
+            for (Category category: store.getCategories()) {
+                extractedProducts.addAll(category.getProducts());
+            }
 
         if(userCommand.equalsIgnoreCase("sort")){
 
+            Comparator<Product> productComparator = new ProductNameComparator().thenComparing(new ProductRateComparator().thenComparing(new ProductPriceComparator()));
+            Collections.sort(extractedProducts, productComparator);
+            randomStorePopulator.prettyProducts(extractedProducts);
+            }
+        else if(userCommand.equalsIgnoreCase("top")){
 
-
-            } else if(userCommand.equalsIgnoreCase("exit")) {
+            ProductPriceComparator productPriceComparator = new ProductPriceComparator();
+            Collections.sort(extractedProducts, productPriceComparator);
+            extractedProducts.subList(5,7).clear();
+            randomStorePopulator.prettyProducts(extractedProducts);
+        }
+        else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();
                 System.out.println("See you soon!");
                 i = 0;
