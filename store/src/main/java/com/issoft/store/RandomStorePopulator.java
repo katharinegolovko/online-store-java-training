@@ -7,10 +7,8 @@ import com.issoft.store.categories.Vegetable;
 import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.issoft.store.TestConstants.FRUIT;
 import static com.issoft.store.TestConstants.BOOK;
@@ -70,7 +68,14 @@ public final class RandomStorePopulator {
         f.setAccessible(true);
         Object data = f.get(store);
         return (List<Category>) data;
+    }
 
+    public List<Product> extractDataFromCategory(Category category) throws IllegalAccessException {
+        Set<Field> fields = ReflectionUtils.getFields(Category.class);
+        Field f = fields.iterator().next();
+        f.setAccessible(true);
+        Object data = f.get(category);
+        return (List<Product>) data;
     }
 
     public void pretty(List<Category> store) {
@@ -83,5 +88,14 @@ public final class RandomStorePopulator {
         }
 
     }
+
+    public void prettyProducts(List<Product> category) {
+        for (Product product : category) {
+            String pattern = "   Product: name=%s, rate=%s, price=%s ";
+            System.out.println(String.format(pattern, product.getName(), product.getRate(), product.getPrice()));
+        }
+    }
+
+
 }
 
