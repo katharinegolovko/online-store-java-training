@@ -39,7 +39,7 @@ public class Product {
                 '}';
     }
 
-    Product(String name, int rate, double price){
+    public Product(String name, int rate, double price){
         this.name = name;
        this.rate = rate;
        this.price = price;

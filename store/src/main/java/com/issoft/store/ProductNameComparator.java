@@ -2,6 +2,15 @@ package com.issoft.store;
 import java.util.Comparator;
 
 public class ProductNameComparator implements Comparator<Product> {
+    private static ProductNameComparator instance;
+    private ProductNameComparator(){
+    }
+    public static ProductNameComparator getInstance(){
+        if (instance == null){
+            instance = new ProductNameComparator();
+        }
+        return instance;
+    }
 
     @Override
     public int compare(Product firstProduct, Product secondProduct) {
