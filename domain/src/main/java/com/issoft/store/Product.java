@@ -6,24 +6,13 @@ public class Product {
     private int rate;
     private double price;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public double getPrice() {
         return price;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
     }
 
     public int getRate() {
@@ -39,9 +28,36 @@ public class Product {
                 '}';
     }
 
-    Product(String name, int rate, double price){
-        this.name = name;
-       this.rate = rate;
-       this.price = price;
+    private Product() {
+    }
+
+    public static Builder newBuilder() {
+        return new Product().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder setProductName(String name) {
+            Product.this.name = name;
+            return this;
+        }
+
+        public Builder setProductRate(int rate) {
+            Product.this.rate = rate;
+            return this;
+        }
+
+        public Builder setProductPrice(double price) {
+            Product.this.price = price;
+            return this;
+        }
+
+        public Product build(){
+            return Product.this;
+        }
+
     }
 }
