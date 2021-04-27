@@ -19,32 +19,25 @@ public final class RandomStorePopulator {
 
     public Product createProduct(String product) {
         if (product == FRUIT) {
-        Product createdProduct = Product.newBuilder()
-                .setProductName(faker.food().fruit())
-                .setProductRate(faker.number().numberBetween(0, 5))
-                .setProductPrice(faker.number().numberBetween(0, 50))
-                .build();
-        return createdProduct;
-        }
-        if (product == VEGETABLE) {
-            Product createdProduct = Product.newBuilder()
-                    .setProductName(faker.food().vegetable())
-                    .setProductRate(faker.number().numberBetween(0, 5))
-                    .setProductPrice(faker.number().numberBetween(0, 35))
-                    .build();
-            return createdProduct;
+            return createProductConstructor(faker.food().fruit(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 50));
+        } if (product == VEGETABLE) {
+            return createProductConstructor(faker.food().vegetable(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 35));
         } else if (product == BOOK) {
-            Product createdProduct = Product.newBuilder()
-                    .setProductName(faker.book().title())
-                    .setProductRate(faker.number().numberBetween(0, 5))
-                    .setProductPrice(faker.number().numberBetween(0, 45))
-                    .build();
-            return createdProduct;
+            return createProductConstructor(faker.book().title(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 40));
         } else {
             Product createdProduct = Product.newBuilder()
                     .build();
             return createdProduct;
         }
+    }
+
+    private Product createProductConstructor(String productName, int productRate, double productPrice){
+        Product createdProduct = Product.newBuilder()
+                .setProductName(productName)
+                .setProductRate(productRate)
+                .setProductPrice(productPrice)
+                .build();
+        return createdProduct;
     }
 
     public ArrayList<Product> populateCategory(String name, int quantity) {
