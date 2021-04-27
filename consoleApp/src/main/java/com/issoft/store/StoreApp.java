@@ -1,4 +1,8 @@
 package com.issoft.store;
+import com.issoft.store.commands.Command;
+import com.issoft.store.commands.SortCommand;
+import com.issoft.store.commands.TopCommand;
+
 import java.io.*;
 import java.util.*;
 
@@ -11,7 +15,7 @@ public class StoreApp {
 
 
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
-        Store store = new Store();
+        Store store = Store.getInstance();
         store.setCategories(randomStorePopulator.populateProductLists());
         List<Product> extractedProducts = new ArrayList<>();
         for (Category category: store.getCategories()) {
@@ -24,18 +28,16 @@ public class StoreApp {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             String userCommand = reader.readLine();
 
-        if(userCommand.equalsIgnoreCase("sort")){
+        if(userCommand.equalsIgnoreCase("sort")) {
 
-            Comparator<Product> productComparator = new ProductNameComparator().thenComparing(new ProductRateComparator().thenComparing(new ProductPriceComparator()));
-            Collections.sort(extractedProducts, productComparator);
-            randomStorePopulator.prettyProducts(extractedProducts);
-            }
+        Command sortCommand = new SortCommand();
+        sortCommand.execute(extractedProducts);
+
+        }
         else if(userCommand.equalsIgnoreCase("top")){
 
-            ProductPriceComparator productPriceComparator = new ProductPriceComparator();
-            Collections.sort(extractedProducts, productPriceComparator);
-            List <Product> finalList = extractedProducts.subList(0,5);
-            randomStorePopulator.prettyProducts(finalList);
+            Command topCommand = new TopCommand();
+            topCommand.execute(extractedProducts);
         }
         else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();

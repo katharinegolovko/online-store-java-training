@@ -8,7 +8,6 @@ import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.issoft.store.TestConstants.FRUIT;
 import static com.issoft.store.TestConstants.BOOK;
@@ -19,20 +18,26 @@ public final class RandomStorePopulator {
     Faker faker = new Faker();
 
     public Product createProduct(String product) {
-        String productName;
         if (product == FRUIT) {
-            productName = faker.food().fruit();
-        } else if (product == VEGETABLE) {
-            productName = faker.food().vegetable();
+            return createProductConstructor(faker.food().fruit(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 50));
+        } if (product == VEGETABLE) {
+            return createProductConstructor(faker.food().vegetable(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 35));
         } else if (product == BOOK) {
-            productName = faker.book().title();
+            return createProductConstructor(faker.book().title(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 40));
         } else {
-            productName = "Unrecognized product";
+            Product createdProduct = Product.newBuilder()
+                    .build();
+            return createdProduct;
         }
-        int productRate = faker.number().numberBetween(0, 5);
-        double productPrice = faker.number().numberBetween(0, 19);
-        Product product2 = new Product(productName, productRate, productPrice);
-        return product2;
+    }
+
+    private Product createProductConstructor(String productName, int productRate, double productPrice){
+        Product createdProduct = Product.newBuilder()
+                .setProductName(productName)
+                .setProductRate(productRate)
+                .setProductPrice(productPrice)
+                .build();
+        return createdProduct;
     }
 
     public ArrayList<Product> populateCategory(String name, int quantity) {
