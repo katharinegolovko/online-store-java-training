@@ -6,6 +6,7 @@ import com.issoft.store.categories.Fruit;
 import com.issoft.store.categories.Vegetable;
 import org.reflections.ReflectionUtils;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -101,6 +102,10 @@ public final class RandomStorePopulator {
         }
     }
 
-
+    public List<Product> createOrder(List<Product> products){
+        List<Product> selectedProducts = products.subList(3, 5);
+        return selectedProducts;
+    }
 }
+
 

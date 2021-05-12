@@ -42,13 +42,43 @@ public class StoreApp {
         else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();
                 System.out.println("See you soon!");
-                i = 0;
+                System.exit(0);
             }
             else {
                 System.out.println("The command was not recognized. Available commands: sort, top, exit. Please try again.");
             }
+
+            final Thread purchaseGoods = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int i = new Random().nextInt(30);
+                    try {
+                        Thread.sleep(100*i);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    List<Product> purchasedGoods = randomStorePopulator.createOrder(extractedProducts);
+                    System.out.println("Your purchased products are: ");
+                    randomStorePopulator.prettyProducts(purchasedGoods);
+                }
+            });
+
+            final Thread cleanUpCollection = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(120000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            purchaseGoods.start();
+            cleanUpCollection.start();
         }
         }
+
 }
 
 
