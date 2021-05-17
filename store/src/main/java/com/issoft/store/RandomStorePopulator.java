@@ -100,6 +100,11 @@ public final class RandomStorePopulator {
             System.out.println(String.format(pattern, product.getName(), product.getRate(), product.getPrice()));
         }
     }
+
+    public void prettyProduct(Product product) {
+            String pattern = "   Product: name=%s, rate=%s, price=%s ";
+            System.out.println(String.format(pattern, product.getName(), product.getRate(), product.getPrice()));
+    }
 }
 
 

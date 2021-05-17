@@ -3,6 +3,8 @@ import com.issoft.store.commands.Command;
 import com.issoft.store.commands.OrderCommand;
 import com.issoft.store.commands.SortCommand;
 import com.issoft.store.commands.TopCommand;
+import com.issoft.store.threads.CleanUpCollectionThread;
+import com.issoft.store.threads.PurchaseGoodsThread;
 
 import java.io.*;
 import java.util.*;
@@ -40,8 +42,10 @@ public class StoreApp {
         }
         else if (userCommand.equalsIgnoreCase("order")){
 
-            Command orderCommand = new OrderCommand();
+            Command orderCommand = new OrderCommand(extractedProducts);
             orderCommand.execute(extractedProducts);
+            //Thread cleanUpCollectionThread = new CleanUpCollectionThread();
+            //cleanUpCollectionThread.start();
             }
         else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();
