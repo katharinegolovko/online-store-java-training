@@ -44,7 +44,10 @@ public class StoreApp {
 
             Command orderCommand = new OrderCommand(extractedProducts);
             orderCommand.execute(extractedProducts);
-            //Thread cleanUpCollectionThread = new CleanUpCollectionThread();
+            //purhaseGoodsThread.start();
+            //PurchaseGoodsThread purchaseGoodsThread = new PurchaseGoodsThread();
+            //purchaseGoodsThread.getPurchasedGoods();
+            //Thread cleanUpCollectionThread = new CleanUpCollectionThread(purchaseGoodsThread.getPurchasedGoods());
             //cleanUpCollectionThread.start();
             }
         else if(userCommand.equalsIgnoreCase("exit")) {

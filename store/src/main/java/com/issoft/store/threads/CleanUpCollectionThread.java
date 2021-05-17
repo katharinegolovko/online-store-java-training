@@ -12,6 +12,7 @@ public class CleanUpCollectionThread extends Thread {
     public CleanUpCollectionThread (List<Product> products){
         this.productsForCleanUp = products;
     }
+
     public void run() {
         try {
             Thread.sleep(12000);

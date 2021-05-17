@@ -30,7 +30,7 @@ public class PurchaseGoodsThread extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        purchasedGoods.addAll(productsForPurchase);
+        setPurchasedGoods(productsForPurchase);
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
         System.out.println("Your purchased product is:");
         randomStorePopulator.prettyProducts(purchasedGoods);
