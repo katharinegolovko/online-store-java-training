@@ -23,8 +23,7 @@ public class StoreApp {
             extractedProducts.addAll(category.getProducts());
         }
 
-        List<Product> purchasedProducts = new ArrayList<>();
-        CleanUpCollectionThread cleanUpCollectionThread = new CleanUpCollectionThread(purchasedProducts);
+        CleanUpCollectionThread cleanUpCollectionThread = new CleanUpCollectionThread(store.getPurchasedProducts());
         cleanUpCollectionThread.start();
 
         int i = 1;
@@ -56,9 +55,9 @@ public class StoreApp {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            purchasedProducts = purchaseGoodsThread.getPurchasedGoods();
+            store.setPurchasedProducts(purchaseGoodsThread.getPurchasedGoods());
             System.out.println("Your purchased product is:");
-            randomStorePopulator.prettyProducts(purchasedProducts);
+            randomStorePopulator.prettyProducts(store.getPurchasedProducts());
             }
         else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();
