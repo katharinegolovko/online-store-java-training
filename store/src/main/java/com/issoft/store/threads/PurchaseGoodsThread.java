@@ -3,16 +3,17 @@ package com.issoft.store.threads;
 import com.issoft.store.Product;
 import com.issoft.store.RandomStorePopulator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class PurchaseGoodsThread extends Thread {
 
-    private List<Product> productsForPurchase;
+    private Product product;
     private List<Product> purchasedGoods;
 
-    public PurchaseGoodsThread(List<Product> selectedProducts) {
-        this.productsForPurchase = selectedProducts;
+    public PurchaseGoodsThread(Product selectedProduct) {
+        this.product = selectedProduct;
     }
 
     public void setPurchasedGoods(List<Product> purchasedGoods) {
@@ -24,15 +25,8 @@ public class PurchaseGoodsThread extends Thread {
     }
 
     public void run() {
-        int i = new Random().nextInt(30);
-        try {
-            Thread.sleep(100*i);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        setPurchasedGoods(productsForPurchase);
-        RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
-        System.out.println("Your purchased product is:");
-        randomStorePopulator.prettyProducts(purchasedGoods);
+        List<Product> productList = new ArrayList<>();
+        productList.add(product);
+        setPurchasedGoods(productList);
     }
 }

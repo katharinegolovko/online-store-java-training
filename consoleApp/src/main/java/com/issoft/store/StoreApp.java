@@ -23,6 +23,10 @@ public class StoreApp {
             extractedProducts.addAll(category.getProducts());
         }
 
+        List<Product> purchasedProducts = new ArrayList<>();
+        CleanUpCollectionThread cleanUpCollectionThread = new CleanUpCollectionThread(purchasedProducts);
+        cleanUpCollectionThread.start();
+
         int i = 1;
         while(i>=1){
             System.out.println("Hi! Available commands: sort, top, order and exit. Please enter your command: ");
@@ -42,13 +46,19 @@ public class StoreApp {
         }
         else if (userCommand.equalsIgnoreCase("order")){
 
-            Command orderCommand = new OrderCommand(extractedProducts);
+            OrderCommand orderCommand = new OrderCommand();
             orderCommand.execute(extractedProducts);
-            //purhaseGoodsThread.start();
-            //PurchaseGoodsThread purchaseGoodsThread = new PurchaseGoodsThread();
-            //purchaseGoodsThread.getPurchasedGoods();
-            //Thread cleanUpCollectionThread = new CleanUpCollectionThread(purchaseGoodsThread.getPurchasedGoods());
-            //cleanUpCollectionThread.start();
+            PurchaseGoodsThread purchaseGoodsThread = new PurchaseGoodsThread(orderCommand.getProduct());
+            purchaseGoodsThread.start();
+            int x = new Random().nextInt(3);
+            try {
+                Thread.sleep(1000*x);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            purchasedProducts = purchaseGoodsThread.getPurchasedGoods();
+            System.out.println("Your purchased product is:");
+            randomStorePopulator.prettyProducts(purchasedProducts);
             }
         else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();
