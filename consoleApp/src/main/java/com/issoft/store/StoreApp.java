@@ -23,6 +23,9 @@ public class StoreApp {
             extractedProducts.addAll(category.getProducts());
         }
 
+        CleanUpCollectionThread cleanUpCollectionThread = new CleanUpCollectionThread();
+        cleanUpCollectionThread.start();
+
         int i = 1;
         while(i>=1){
             System.out.println("Hi! Available commands: sort, top, order and exit. Please enter your command: ");
@@ -42,13 +45,10 @@ public class StoreApp {
         }
         else if (userCommand.equalsIgnoreCase("order")){
 
-            Command orderCommand = new OrderCommand(extractedProducts);
+            OrderCommand orderCommand = new OrderCommand();
             orderCommand.execute(extractedProducts);
-            //purhaseGoodsThread.start();
-            //PurchaseGoodsThread purchaseGoodsThread = new PurchaseGoodsThread();
-            //purchaseGoodsThread.getPurchasedGoods();
-            //Thread cleanUpCollectionThread = new CleanUpCollectionThread(purchaseGoodsThread.getPurchasedGoods());
-            //cleanUpCollectionThread.start();
+            PurchaseGoodsThread purchaseGoodsThread = new PurchaseGoodsThread(orderCommand.getProduct());
+            purchaseGoodsThread.start();
             }
         else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();
