@@ -1,17 +1,17 @@
 package com.issoft.store;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Category {
 
     private String name;
-    private ArrayList<Product> products;
+    private List<Product> products;
 
     public void setName(String name){
         this.name = name;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
@@ -19,7 +19,7 @@ public class Category {
         return name;
     }
 
-    public ArrayList<Product> getProducts(){
+    public List<Product> getProducts(){
         return products;
     }
 
