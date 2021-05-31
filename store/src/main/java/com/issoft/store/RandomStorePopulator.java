@@ -3,9 +3,6 @@ package com.issoft.store;
 import com.issoft.store.categories.Book;
 import com.issoft.store.categories.Fruit;
 import com.issoft.store.categories.Vegetable;
-import org.reflections.ReflectionUtils;
-
-import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.*;
 
@@ -93,22 +90,6 @@ public final class RandomStorePopulator {
         return productList;
     }
 
-
-    public List<Category> extractDataFromStore(Store store) throws IllegalAccessException {
-        Set<Field> fields = ReflectionUtils.getFields(Store.class);
-        Field f = fields.iterator().next();
-        f.setAccessible(true);
-        Object data = f.get(store);
-        return (List<Category>) data;
-    }
-
-    public List<Product> extractDataFromCategory(Category category) throws IllegalAccessException {
-        Set<Field> fields = ReflectionUtils.getFields(Category.class);
-        Field f = fields.iterator().next();
-        f.setAccessible(true);
-        Object data = f.get(category);
-        return (List<Product>) data;
-    }
 
     public void pretty(List<Category> store) {
         for (Category category : store) {

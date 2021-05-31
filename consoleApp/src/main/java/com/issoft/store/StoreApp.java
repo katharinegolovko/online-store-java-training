@@ -14,7 +14,7 @@ import java.util.*;
 public class StoreApp {
 
 
-    public static void main(String args[]) throws IOException, SQLException {
+    public static void main(String args[]) throws IOException, SQLException, ClassNotFoundException {
 
 
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
