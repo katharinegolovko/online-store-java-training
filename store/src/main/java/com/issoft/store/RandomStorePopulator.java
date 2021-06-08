@@ -13,11 +13,7 @@ import static com.issoft.store.TestConstants.VEGETABLE;
 public final class RandomStorePopulator {
 
     public List<Product> createProduct(String product) throws SQLException, ClassNotFoundException {
-        try {
-            Class.forName ("org.h2.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
         Connection conn = DatabaseConnection.getInstance().connectToDatabase();
         Statement st = conn.createStatement();
         List<Product> productList = new ArrayList<>();
