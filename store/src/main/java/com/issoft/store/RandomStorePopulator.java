@@ -12,13 +12,13 @@ import static com.issoft.store.TestConstants.VEGETABLE;
 
 public final class RandomStorePopulator {
 
-    public List<Product> createProduct(String product) throws SQLException {
+    public List<Product> createProduct(String product) throws SQLException, ClassNotFoundException {
         try {
             Class.forName ("org.h2.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        Connection conn = DriverManager.getConnection ("jdbc:h2:tcp://localhost/~/test","sa","");
+        Connection conn = DatabaseConnection.getInstance().connectToDatabase();
         Statement st = conn.createStatement();
         List<Product> productList = new ArrayList<>();
 
@@ -68,12 +68,12 @@ public final class RandomStorePopulator {
         return createdProduct;
     }
 
-    public List<Product> populateCategory(String name) throws SQLException {
+    public List<Product> populateCategory(String name) throws SQLException, ClassNotFoundException {
         List<Product> productList = createProduct(name);
         return productList;
     }
 
-    public List<Category> populateProductLists() throws SQLException {
+    public List<Category> populateProductLists() throws SQLException, ClassNotFoundException {
         List<Category> productList = new ArrayList<Category>();
         Fruit fruitCategory = new Fruit();
         fruitCategory.setName(FRUIT);
