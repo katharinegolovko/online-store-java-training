@@ -1,6 +1,9 @@
 package com.issoft.store.threads;
+import com.issoft.store.DatabaseConnection;
 
-import com.issoft.store.Store;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class CleanUpCollectionThread extends Thread {
@@ -12,9 +15,21 @@ public class CleanUpCollectionThread extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-           Store store = Store.getInstance();
-            store.getPurchasedProducts().clear();
-            System.out.println("Purchased Products Collection was cleaned: " + store.getPurchasedProducts().toString());
+            Connection conn = null;
+            Statement st = null;
+            String sql = "DELETE from PurchasedProducts";
+            try {
+                conn = DatabaseConnection.getInstance().connectToDatabase();
+                st = conn.createStatement();
+                st.executeUpdate(sql);
+                conn.close();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            System.out.println("Purchased Products Collection was cleaned.");
+
         }
     }
 }

@@ -1,12 +1,9 @@
 package com.issoft.store;
 
-import com.github.javafaker.Faker;
 import com.issoft.store.categories.Book;
 import com.issoft.store.categories.Fruit;
 import com.issoft.store.categories.Vegetable;
-import org.reflections.ReflectionUtils;
-
-import java.lang.reflect.Field;
+import java.sql.*;
 import java.util.*;
 
 import static com.issoft.store.TestConstants.FRUIT;
@@ -15,19 +12,46 @@ import static com.issoft.store.TestConstants.VEGETABLE;
 
 public final class RandomStorePopulator {
 
-    Faker faker = new Faker();
+    public List<Product> createProduct(String product) throws SQLException, ClassNotFoundException {
 
-    public Product createProduct(String product) {
+        Connection conn = DatabaseConnection.getInstance().connectToDatabase();
+        Statement st = conn.createStatement();
+        List<Product> productList = new ArrayList<>();
+
         if (product == FRUIT) {
-            return createProductConstructor(faker.food().fruit(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 50));
-        } if (product == VEGETABLE) {
-            return createProductConstructor(faker.food().vegetable(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 35));
-        } else if (product == BOOK) {
-            return createProductConstructor(faker.book().title(), faker.number().numberBetween(0, 5),faker.number().numberBetween(0, 40));
-        } else {
-            Product createdProduct = Product.newBuilder()
-                    .build();
-            return createdProduct;
+            ResultSet rs1 = st.executeQuery("SELECT * FROM STORE where CATEGORY='Fruit'");
+            while(rs1.next()) {
+
+                String fruitName = rs1.getString("NAME");
+                int fruitRate  = rs1.getInt("RATE");
+                double fruitPrice = rs1.getDouble("PRICE");
+                productList.add(createProductConstructor(fruitName, fruitRate, fruitPrice));
+            }
+            return productList;
+        } else if (product == VEGETABLE) {
+            ResultSet rs2 = st.executeQuery("SELECT * FROM STORE where CATEGORY='Vegetable'");
+            while (rs2.next()) {
+
+                String vegetableName = rs2.getString("NAME");
+                int vegetableRate = rs2.getInt("RATE");
+                double vegetablePrice = rs2.getDouble("PRICE");
+                productList.add(createProductConstructor(vegetableName, vegetableRate, vegetablePrice));
+            }
+            return productList;
+        }
+        else if (product == BOOK) {
+            ResultSet rs2 = st.executeQuery("SELECT * FROM STORE where CATEGORY='Book'");
+            while (rs2.next()) {
+
+                String bookName = rs2.getString("NAME");
+                int bookRate = rs2.getInt("RATE");
+                double bookPrice = rs2.getDouble("PRICE");
+                productList.add(createProductConstructor(bookName, bookRate, bookPrice));
+            }
+            return productList;
+        }
+        else {
+            return productList;
         }
     }
 
@@ -40,48 +64,28 @@ public final class RandomStorePopulator {
         return createdProduct;
     }
 
-    public ArrayList<Product> populateCategory(String name, int quantity) {
-        ArrayList<Product> productList = new ArrayList<Product>();
-        for (int i = quantity; i > 0; i--) {
-            Product product = createProduct(name);
-            productList.add(product);
-        }
+    public List<Product> populateCategory(String name) throws SQLException, ClassNotFoundException {
+        List<Product> productList = createProduct(name);
         return productList;
     }
 
-    public ArrayList<Category> populateProductLists() {
-        ArrayList<Category> productList = new ArrayList<Category>();
+    public List<Category> populateProductLists() throws SQLException, ClassNotFoundException {
+        List<Category> productList = new ArrayList<Category>();
         Fruit fruitCategory = new Fruit();
         fruitCategory.setName(FRUIT);
-        fruitCategory.setProducts(populateCategory(FRUIT, 2));
+        fruitCategory.setProducts(populateCategory(FRUIT));
         Vegetable vegetableCategory = new Vegetable();
         vegetableCategory.setName(VEGETABLE);
-        vegetableCategory.setProducts(populateCategory(VEGETABLE, 3));
+        vegetableCategory.setProducts(populateCategory(VEGETABLE));
         Book bookCategory = new Book();
         bookCategory.setName(BOOK);
-        bookCategory.setProducts(populateCategory(BOOK, 2));
+        bookCategory.setProducts(populateCategory(BOOK));
         productList.add(fruitCategory);
         productList.add(vegetableCategory);
         productList.add(bookCategory);
         return productList;
     }
 
-
-    public List<Category> extractDataFromStore(Store store) throws IllegalAccessException {
-        Set<Field> fields = ReflectionUtils.getFields(Store.class);
-        Field f = fields.iterator().next();
-        f.setAccessible(true);
-        Object data = f.get(store);
-        return (List<Category>) data;
-    }
-
-    public List<Product> extractDataFromCategory(Category category) throws IllegalAccessException {
-        Set<Field> fields = ReflectionUtils.getFields(Category.class);
-        Field f = fields.iterator().next();
-        f.setAccessible(true);
-        Object data = f.get(category);
-        return (List<Product>) data;
-    }
 
     public void pretty(List<Category> store) {
         for (Category category : store) {

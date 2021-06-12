@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Store {
 
-    private ArrayList<Category> categories;
+    private List<Category> categories;
     private static Store instance;
     private List<Product> purchasedProducts = new ArrayList<>();
     private Store(){
@@ -17,11 +17,11 @@ public class Store {
         return instance;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
-    public ArrayList<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 

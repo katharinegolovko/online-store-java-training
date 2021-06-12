@@ -7,12 +7,14 @@ import com.issoft.store.threads.CleanUpCollectionThread;
 import com.issoft.store.threads.PurchaseGoodsThread;
 
 import java.io.*;
+import java.sql.*;
 import java.util.*;
+
 
 public class StoreApp {
 
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, SQLException, ClassNotFoundException {
 
 
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
