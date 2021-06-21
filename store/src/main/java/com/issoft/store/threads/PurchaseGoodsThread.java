@@ -1,8 +1,10 @@
 package com.issoft.store.threads;
 
 import com.issoft.store.Product;
+import com.issoft.store.Server;
 import com.issoft.store.Store;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -31,7 +33,13 @@ public class PurchaseGoodsThread extends Thread {
             e.printStackTrace();
         }
         Store store = Store.getInstance();
-        store.getPurchasedProducts().add(product);
+        Server server = new Server();
+        try {
+            server.postRequest(product);
+            server.sendGET();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Your purchased product(s) is(are): " + store.getPurchasedProducts().toString());
 
     }

@@ -12,7 +12,8 @@ import java.util.*;
 public class StoreApp {
 
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws Exception {
+
 
 
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
@@ -25,6 +26,9 @@ public class StoreApp {
 
         CleanUpCollectionThread cleanUpCollectionThread = new CleanUpCollectionThread();
         cleanUpCollectionThread.start();
+        Server server = new Server();
+        //server.run();
+
 
         int i = 1;
         while(i>=1){
