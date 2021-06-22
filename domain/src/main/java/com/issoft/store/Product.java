@@ -1,5 +1,7 @@
 package com.issoft.store;
 
+import java.util.List;
+
 public class Product {
 
     private String name;
@@ -59,5 +61,15 @@ public class Product {
             return Product.this;
         }
 
+    }
+
+    public static String productToString(List<Product> products) {
+        String product = "";
+        int productNumber = 1;
+        for (Product item : products) {
+            product += "  " + productNumber + ". " + item.getName() + ", price: " + item.getPrice() + ", rate: " + item.getRate() + "\n";
+            productNumber++;
+        }
+        return product;
     }
 }
