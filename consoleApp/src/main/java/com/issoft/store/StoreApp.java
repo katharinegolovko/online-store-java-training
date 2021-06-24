@@ -2,19 +2,24 @@ package com.issoft.store;
 import com.issoft.store.commands.Command;
 import com.issoft.store.commands.OrderCommand;
 import com.issoft.store.commands.SortCommand;
-import com.issoft.store.commands.TopCommand;
+import com.issoft.store.handlers.SortHandler;
+import com.issoft.store.handlers.TopHandler;
 import com.issoft.store.threads.CleanUpCollectionThread;
 import com.issoft.store.threads.PurchaseGoodsThread;
+import com.sun.net.httpserver.HttpServer;
+import io.restassured.RestAssured;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.util.*;
 
 public class StoreApp {
 
-
+    private static String URL = "http://localhost:3535";
     public static void main(String args[]) throws Exception {
 
-
+        Server server = new Server();
+        server.run();
 
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
         Store store = Store.getInstance();
@@ -26,8 +31,6 @@ public class StoreApp {
 
         CleanUpCollectionThread cleanUpCollectionThread = new CleanUpCollectionThread();
         cleanUpCollectionThread.start();
-        Server server = new Server();
-        //server.run();
 
 
         int i = 1;
@@ -37,25 +40,19 @@ public class StoreApp {
             String userCommand = reader.readLine();
 
         if(userCommand.equalsIgnoreCase("sort")) {
-
-        Command sortCommand = new SortCommand();
-        sortCommand.execute(extractedProducts);
-
+            get(URL + "/sort");
         }
         else if(userCommand.equalsIgnoreCase("top")){
-
-            Command topCommand = new TopCommand();
-            topCommand.execute(extractedProducts);
+            get(URL + "/top");
         }
         else if (userCommand.equalsIgnoreCase("order")){
 
-            OrderCommand orderCommand = new OrderCommand();
-            orderCommand.execute(extractedProducts);
-            PurchaseGoodsThread purchaseGoodsThread = new PurchaseGoodsThread(orderCommand.getProduct());
-            purchaseGoodsThread.start();
+            server.order();
+            get(URL + "/order");
             }
         else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();
+                server.stop();
                 System.out.println("See you soon!");
                 System.exit(0);
             }
@@ -64,6 +61,12 @@ public class StoreApp {
             }
         }
         }
+
+    private static String get(String url) {
+        System.out.println(URL);
+        String response = RestAssured.given().when().get(url).body().prettyPrint();
+        return response;
+    }
 
 }
 

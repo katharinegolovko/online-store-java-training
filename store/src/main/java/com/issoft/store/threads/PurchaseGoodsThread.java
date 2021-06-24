@@ -34,12 +34,7 @@ public class PurchaseGoodsThread extends Thread {
         }
         Store store = Store.getInstance();
         Server server = new Server();
-        try {
-            server.postRequest(product);
-            server.sendGET();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         System.out.println("Your purchased product(s) is(are): " + store.getPurchasedProducts().toString());
 
     }

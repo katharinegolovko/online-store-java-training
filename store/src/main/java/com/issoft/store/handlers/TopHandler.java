@@ -1,4 +1,4 @@
-package com.issoft.store.refactoring;
+package com.issoft.store.handlers;
 
 import com.issoft.store.Category;
 import com.issoft.store.Product;
@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Top5Handler implements HttpHandler {
+public class TopHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        System.out.println("Client connected to 'top5'");
+        System.out.println("Client connected to 'top'");
 
         List<Product> extractedProducts = new ArrayList<>();
         for (Category category : Store.getInstance().getCategories()) {
