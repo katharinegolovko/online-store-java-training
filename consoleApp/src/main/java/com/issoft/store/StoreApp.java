@@ -1,12 +1,6 @@
 package com.issoft.store;
-import com.issoft.store.commands.Command;
 import com.issoft.store.commands.OrderCommand;
-import com.issoft.store.commands.SortCommand;
-import com.issoft.store.handlers.SortHandler;
-import com.issoft.store.handlers.TopHandler;
 import com.issoft.store.threads.CleanUpCollectionThread;
-import com.issoft.store.threads.PurchaseGoodsThread;
-import com.sun.net.httpserver.HttpServer;
 import io.restassured.RestAssured;
 
 import java.io.*;
@@ -46,9 +40,9 @@ public class StoreApp {
             get(URL + "/top");
         }
         else if (userCommand.equalsIgnoreCase("order")){
-
-            server.order();
-            get(URL + "/order");
+            OrderCommand orderCommand = new OrderCommand();
+            orderCommand.execute(extractedProducts);
+            get(URL + "/order?productNumber=" + productNumber);
             }
         else if(userCommand.equalsIgnoreCase("exit")) {
                 reader.close();
